@@ -5,6 +5,7 @@
     <groupId>com.huang</groupId>
     <artifactId>taco-cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>taco-cloud</name>
     <description>taco-cloud</description>
 
