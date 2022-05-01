@@ -27,9 +27,6 @@ target/
 mvnw
 mvnw.*
 dist/
-
-
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
