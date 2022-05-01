@@ -8,7 +8,7 @@ class TacoCloudApplicationTests {
 
     @Test
     void contextLoads() {
-
+        System.out.println("运行初始化测试...");
     }
 
 }
