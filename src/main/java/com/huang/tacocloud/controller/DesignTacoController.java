@@ -1,26 +1,37 @@
 package com.huang.tacocloud.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.huang.tacocloud.Taco;
+import com.huang.tacocloud.data.IngredientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 import com.huang.tacocloud.Ingredient;
 import com.huang.tacocloud.Ingredient.Type;
 
+import com.huang.tacocloud.data.IngredientRepository;
+
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
-    @ModelAttribute
+
+    private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public DesignTacoController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
+
+    /*@ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
             new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
@@ -41,10 +52,17 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingredients, type));
         }
-    }
+    }*/
     @GetMapping
     public String showDesignForm(Model model) {
-        model.addAttribute("design", new Taco());
+        //model.addAttribute("design", new Taco());
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(i -> ingredients.add(i));
+        Type[] types = Ingredient.Type.values();
+        for (Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(),
+                filterByType(ingredients, type));
+        }
         return "design";
     }
     @PostMapping
