@@ -53,9 +53,8 @@ public class DesignTacoController {
                     filterByType(ingredients, type));
         }
     }*/
-    @GetMapping
-    public String showDesignForm(Model model) {
-        //model.addAttribute("design", new Taco());
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(i -> ingredients.add(i));
         Type[] types = Ingredient.Type.values();
@@ -63,6 +62,10 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),
                 filterByType(ingredients, type));
         }
+    }
+    @GetMapping
+    public String showDesignForm(Model model) {
+        model.addAttribute("design", new Taco());
         return "design";
     }
     @PostMapping
